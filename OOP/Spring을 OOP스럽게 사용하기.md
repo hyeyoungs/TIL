@@ -1,18 +1,48 @@
 # 스프링에서 OOP와 안티 패턴 : SmartUI, Transaction script
 
-<br>
-
 ## SmartUI
 - 백엔드에서 UI란? Controller
 - 스마트 컨트롤러를 피하기
-- **Controller**는 어떤 서비스를 실행할지 선택하는 정도의 역할만
+- **Controller**는 `어떤 서비스를 실행할지 선택`하는 정도의 역할만
 
 <br>
 
 ### Layered systen at DDD
+#### Controller
+어떤 서비스를 실행할지 선택하는 역할
+<br>
+
 #### Service
 소프트웨어가 수행할 작업을 정의하고 표현력있는 도메인 객체가 문제를 해결하는 레이어, 다른 시스템의 응용 계층과 상호작용하는데 필요한 것들
-<br>이 계층은 최대한 얇게 유지 되어야 함
-<br>오직 작업을 조정하고 아래에 위치한 계층에 도메인 객체의 협력자에게 작업을 위임함
+<br>`이 계층은 최대한 얇게` 유지 되어야 함
+<br>`오직 작업을 조정`하고 아래에 위치한 계층에 `도메인 객체의 협력자에게 작업을 위임`함
 
 <img width="800" alt="image" src="https://github.com/hyeyoungs/TIL/assets/29566893/c0560d6a-90f3-47af-9a10-caf485253470">
+<br>
+
+#### Domain model
+`업무 개념과 업무 상황에 관한 정보, 업무 규칙을 표현하는 일을 책임`짐
+<br>상태 저장과 관련된 기술적인 세부사항은 **인프라스트럭쳐**에 위임함
+
+<br>
+
+## Transaction script
+아마도 스프링을 처음 배운 코드
+
+- Service
+  - 두꺼운 컴포넌트, 객체가 모두 수동적으로 동작함
+  - 서비스가 거의 신
+  - 모든 객체에 대한 접근 권한을 갖고있고 모든 분기를 다 처리하는 코드가 되어버림
+  - <img width="800" alt="image" src="https://github.com/hyeyoungs/TIL/assets/29566893/b16e06f7-f060-4ab9-b67e-b442ab733f5c">
+ 
+- Repository
+  - 추상화하지 않고 JPA Repostiory를 다이렉트로 접근해서 사용
+  - <img width="800" alt="image" src="https://github.com/hyeyoungs/TIL/assets/29566893/faab75d1-8927-488d-bc39-5a6877ea32ea">
+
+
+<br>🥲 테스트하기도 힘들고 전혀 객체지향스럽지도 않음
+<br>😅 서비스 코드가 트랜잭션을 실행하는 스크립트의 역할일 뿐
+<br>😂 비즈니스 로직을 서비스가 들고 있어서 생기는 문제
+
+#### 서비스는 작업을 조정하고, 비즈니스 로직을 도메인에게 위임해야 함
+#### 비즈니스 로직을 제발 도메인이 들고 있게 하기
