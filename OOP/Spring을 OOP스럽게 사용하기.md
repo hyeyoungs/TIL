@@ -68,9 +68,12 @@ Business Layer가 JPA Repository에 강결합 되어있기 때문에 인프라�
 - JPA에서 Mongo로 바꿔도 Service Layer(=Business Layer)에 변경 없이 수정이 가능<br>Repository를 선택적으로 변경할 수 있음
 - Service 로직 테스트하고 싶을 때, 테스트 하기 쉬워짐<br>(h2나 mock 라이브러리 없어도 자연스러운 테스트를 할 수 있음)
 
-### `서비스`는 `구체`로 
+### `서비스`는 `구현체`로 
 
 ### `도메인 영역`(= 핵심 로직)은 `풍부하게 만들기`, 필요에 따라 추상화
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/34ce20ee-16e6-42ad-94f6-26412b976386)
+
 
 <br>
 
