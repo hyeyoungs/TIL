@@ -63,7 +63,6 @@
 ### 시스템 외부 연동(DB, WebClient ➡️ `Repository`)은 `추상화`
 #### 시스템 외부 연동 추상화하지 않은 경우
 Business Layer가 JPA Repository에 강결합 되어있기 때문에 인프라가 변경되면, Business Layer도 변경되어야 함
-<br>
 #### 시스템 외부 연동 추상화한 경우
 - JPA에서 Mongo로 바꿔도 Service Layer(=Business Layer)에 변경 없이 수정이 가능<br>Repository를 선택적으로 변경할 수 있음
 - Service 로직 테스트하고 싶을 때, 테스트 하기 쉬워짐<br>(h2나 mock 라이브러리 없어도 자연스러운 테스트를 할 수 있음)
@@ -78,5 +77,70 @@ Business Layer가 JPA Repository에 강결합 되어있기 때문에 인프라�
 <br>
 
 ## 설계
-### 설계에 정답은 없음
-### 확실한 건 테스트하기 좋은 코드는 좋은 설계일 확률이 높음
+#### 설계에 정답은 없음
+#### 확실한 건 테스트하기 좋은 코드는 좋은 설계일 확률이 높음
+
+<br><br>
+
+# 서비스란 무엇인가?
+## Service
+> Service : 도메인과 도메인 서비스에게 책임을 위임하는 Facade 패턴의 일종
+
+<br>
+
+### DDD에서 말하는 서비스
+서비스는 이름 끝에 "Manager"와 같은 것이 붙음
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/e91b6ee3-22f8-4b55-845d-7996532c06a6)
+
+항상 내가 짠 코드가 절차지향적인 코드가 되지 않았는지 경계하고 객체로 분할해야 됨
+
+- ProductService는 애플리케이션 서비스
+- Repository에 접근하는 동작은 어떤 도메인도 들고 있기 애매하므로 Service가 들고 있는 것이 맞음
+- PriceCalculator 같은 객체를 도메인 서비스라고 부름
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/fa21b953-a005-49b0-877f-5e32ac7831a6)
+
+- 가격 계산이라는 로직을 도메인이 들고있게 할 수 있다면 그게 더 나음
+
+<br>
+
+### 중요
+#### 중요한 건 풍부한 도메인을 만들라는 것
+#### 서비스는 가능한 적게 만들고 얇게 만들라는 것
+
+<br>
+
+## 서비스에 관한 조언
+### 오브젝트 디자인에서 말하는 서비스
+한번 생성하면 특정 작업을 하는 작은 기계처럼 영원히(= 불변성) 실행할 수 있음. 이러한 객체를 서비스라고 함
+
+<br>
+
+### 서비스의 불변성
+#### 생성자 주입만 사용함
+- 순환참조를 막아줌
+- 서비스를 분변이어야 함. 즉 인스턴스 생성을 마친 후에는 바꿀 수 없어야 함
+
+> 생성자 주입을 해야하는 이유 : 한번 생성으로 영원히 일을 하는 일관된 객체를 만들어야 하기 때문
+
+<br>
+
+### RequiredArgsConstructor
+미관상 생성자 자체를 넣는게 예쁘지 않다고 느껴진다면 `@RequiredArgsConstructor` + `private final`을 이용하자
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/70ee41ca-3165-4ac4-81fa-e454c3ebbb26)
+
+<br>
+
+### 순환 참조는 피하자
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/1292c18b-af08-4fa1-a591-6ea1ce430024)
+
+<br>
+
+### 중요
+#### 서비스는 얇게 유지
+#### 서비스의 멤버 변수는 모두 final로 유지
+#### 서비스에 setter가 존재한다면 지우기
+#### 반드시 생성자 주입으로 변경
