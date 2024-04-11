@@ -144,3 +144,29 @@ Business Layer가 JPA Repository에 강결합 되어있기 때문에 인프라�
 #### 서비스의 멤버 변수는 모두 final로 유지
 #### 서비스에 setter가 존재한다면 지우기
 #### 반드시 생성자 주입으로 변경
+
+# 기타 꿀팁
+## JPA
+### JPA VS Hibernate VS Spring-data-jpa
+- spring-data-jpa : JPA를 더 쉽게 사용할 수 있도록 ex) interface JpaRepository @Query, @Modifying ...
+- JPA : 기술 명세 (자바 측에서 정한 인터페이스) ex) @Entity, @Table, @Column...
+- Hibernate : JPA의 구현체
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/62da2b2c-2848-48db-bd27-d07d537a91e5)
+
+<br>
+
+### 연관 관계의 주인
+#### 관계를 표현하는데 있어서 가장 중요한 것 = 연관 관계의 핵심 = 외래키 
+ex. team_id
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/22dacd0b-a5fc-4b01-bd48-d2c9310aa2af)
+
+<br>
+
+- mappedBy : 나는 연관관계의 주인이 아님 (연관 관계의 주인은 외래키에 맵핑된 객체)
+- 아예 양방향 안 만드는게 좋음
+
+![image](https://github.com/hyeyoungs/TIL/assets/29566893/a246e98d-aa4a-4962-93b8-91357ab3e94c)
+
+<br>
